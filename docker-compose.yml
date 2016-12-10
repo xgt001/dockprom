@@ -16,8 +16,8 @@ services:
     command:
       - '-config.file=/etc/prometheus/prometheus.yml'
       - '-storage.local.path=/prometheus'
+      - '-storage.local.memory-chunks=100000'
       - '-alertmanager.url=http://alertmanager:9093'
-      - '-storage.local.mem_limit-chunks=100000'
       - '-query.staleness-delta=1m'
     restart: unless-stopped
     expose:

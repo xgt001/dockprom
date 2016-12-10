@@ -18,7 +18,7 @@ ALERT high_memory_load
 
 ALERT high_disk_usage
   IF (node_filesystem_size{mountpoint="/etc/hosts"} - node_filesystem_avail{mountpoint="/etc/hosts"}) / node_filesystem_size{mountpoint="/etc/hosts"} * 100 > 60
-  FOR 1m0s
+  FOR 5m
   LABELS { serverity = "warning"}
   ANNOTATIONS   {
         summary = "Host server storage is getting full",
@@ -27,7 +27,7 @@ ALERT high_disk_usage
 
 ALERT high_RAM_usage
   IF (node_memory_MemTotal{job="nodeexporter"} - node_memory_MemFree{job="nodeexporter"}) / node_memory_MemTotal{job="nodeexporter"} * 100 < 20
-  FOR 1m0s
+  FOR 5m
   LABELS { serverity = "critical"}
   ANNOTATIONS   {
         summary = "Host RAM usage is high",
@@ -37,7 +37,7 @@ ALERT high_RAM_usage
 
 ALERT hight_storage_load
   IF (node_filesystem_size{fstype="aufs"} - node_filesystem_free{fstype="aufs"}) / node_filesystem_size{fstype="aufs"}  * 100 > 85
-  FOR 30s
+  FOR 5m
   LABELS { severity = "warning" }
   ANNOTATIONS {
       summary = "Server storage is almost full",
