@@ -34,7 +34,7 @@ services:
     container_name: alertmanager
     mem_limit: 153000000
     volumes: 
-      - ./alertmanager/:/etc/alertmanager/
+      - /opt/alertmanager/:/etc/alertmanager/
     command:
       - '-config.file=/etc/alertmanager/config.yml'
       - '-storage.path=/alertmanager'
