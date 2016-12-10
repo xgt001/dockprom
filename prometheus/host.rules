@@ -16,6 +16,25 @@ ALERT high_memory_load
       description = "Docker host memory usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }} of job {{ $labels.job }}.",
   }
 
+ALERT high_disk_usage
+  IF (node_filesystem_size{mountpoint="/etc/hosts"} - node_filesystem_avail{mountpoint="/etc/hosts"}) / node_filesystem_size{mountpoint="/etc/hosts"} * 100 > 60
+  FOR 1m0s
+  LABELS { serverity = "warning"}
+  ANNOTATIONS   {
+        summary = "Host server storage is getting full",
+        description = "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }}",
+  }
+
+ALERT high_RAM_usage
+  IF (node_memory_MemTotal{job="nodeexporter"} - node_memory_MemFree{job="nodeexporter"}) / node_memory_MemTotal{job="nodeexporter"} * 100 < 20
+  FOR 1m0s
+  LABELS { serverity = "critical"}
+  ANNOTATIONS   {
+        summary = "Host RAM usage is high",
+        description = "Docker host storage usage is {{ humanize $value}}%. Reported by instance {{ $labels.instance }}",
+  }
+
+
 ALERT hight_storage_load
   IF (node_filesystem_size{fstype="aufs"} - node_filesystem_free{fstype="aufs"}) / node_filesystem_size{fstype="aufs"}  * 100 > 85
   FOR 30s
